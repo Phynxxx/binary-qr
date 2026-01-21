@@ -21,6 +21,6 @@ const UserSchema = new mongoose.Schema({
 });
 
 // Update updatedAt on save
-UserSchema.pre('save', function(next){ this.updatedAt = new Date(); next(); });
+UserSchema.pre('save', function(next: any){ this.updatedAt = new Date(); next(); });
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);

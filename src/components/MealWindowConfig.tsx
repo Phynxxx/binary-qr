@@ -23,6 +23,13 @@ const DEFAULT_MEALS = [
   { key: 'lunch2', label: 'Lunch 2' },
 ];
 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+
+// ... interfaces ...
+
 export default function MealWindowConfig({ initialWindows, onSave }: MealWindowConfigProps) {
   const [windows, setWindows] = useState<MealWindow[]>([]);
 
@@ -52,54 +59,54 @@ export default function MealWindowConfig({ initialWindows, onSave }: MealWindowC
   };
 
   return (
-    <div className="card">
-      <h3 className="text-xl font-bold mb-6 border-b border-primary pb-2">Meal Window Configuration</h3>
-      
-      <div className="space-y-4">
+    <Card>
+      <CardHeader>
+        <CardTitle>Meal Window Configuration</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
         {windows.map((w, idx) => (
-          <div key={w.mealKey} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center border-b border-gray-800 pb-4">
-            <div className="md:col-span-3">
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input 
+          <div key={w.mealKey} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end border-b border-border pb-4 last:border-0">
+            <div className="md:col-span-3 flex items-center space-x-2 h-10">
+               <input 
                   type="checkbox" 
                   checked={w.enabled} 
                   onChange={(e) => handleChange(idx, 'enabled', e.target.checked)}
-                  className="w-5 h-5 accent-primary"
+                  className="w-5 h-5 accent-primary cursor-pointer"
+                  id={`enable-${w.mealKey}`}
                 />
-                <span className={`font-bold ${w.enabled ? 'text-white' : 'text-gray-500'}`}>{w.label}</span>
-              </label>
+                <Label htmlFor={`enable-${w.mealKey}`} className={`cursor-pointer ${w.enabled ? 'text-foreground' : 'text-muted-foreground'}`}>
+                  {w.label}
+                </Label>
             </div>
             
-            <div className="md:col-span-4">
-              <label className="block text-xs text-gray-500 mb-1">Start Time</label>
-              <input 
+            <div className="md:col-span-4 space-y-2">
+              <Label className="text-xs text-muted-foreground">Start Time</Label>
+              <Input 
                 type="datetime-local" 
                 value={w.start ? new Date(w.start).toISOString().slice(0, 16) : ''}
                 onChange={(e) => handleChange(idx, 'start', new Date(e.target.value).toISOString())}
                 disabled={!w.enabled}
-                className="input-field disabled:opacity-50"
               />
             </div>
             
-            <div className="md:col-span-4">
-              <label className="block text-xs text-gray-500 mb-1">End Time</label>
-              <input 
+            <div className="md:col-span-4 space-y-2">
+              <Label className="text-xs text-muted-foreground">End Time</Label>
+              <Input 
                 type="datetime-local" 
                 value={w.end ? new Date(w.end).toISOString().slice(0, 16) : ''}
                 onChange={(e) => handleChange(idx, 'end', new Date(e.target.value).toISOString())}
                 disabled={!w.enabled}
-                className="input-field disabled:opacity-50"
               />
             </div>
           </div>
         ))}
-      </div>
 
-      <div className="mt-6 flex justify-end">
-        <button onClick={handleSave} className="btn-primary">
-          SAVE CONFIGURATION
-        </button>
-      </div>
-    </div>
+        <div className="flex justify-end pt-4">
+          <Button onClick={handleSave} size="lg">
+            SAVE CONFIGURATION
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

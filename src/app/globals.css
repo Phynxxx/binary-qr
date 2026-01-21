@@ -1,42 +1,122 @@
 @import "tailwindcss";
 
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #000000;
-  --foreground: #00ff00;
-  --primary: #00ff00;
-  --secondary: #003300;
-  --error: #ff0000;
-  --warning: #ffff00;
+  --background: 0 0% 0%;
+  --foreground: 120 100% 50%; /* Green */
+
+  --card: 0 0% 3%;
+  --card-foreground: 120 100% 50%;
+
+  --popover: 0 0% 3%;
+  --popover-foreground: 120 100% 50%;
+
+  --primary: 120 100% 50%;
+  --primary-foreground: 0 0% 0%;
+
+  --secondary: 120 100% 10%;
+  --secondary-foreground: 120 100% 50%;
+
+  --muted: 120 20% 10%;
+  --muted-foreground: 120 60% 40%;
+
+  --accent: 120 100% 10%;
+  --accent-foreground: 120 100% 50%;
+
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 120 50% 20%;
+  --input: 120 50% 20%;
+  --ring: 120 100% 50%;
+
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 0 0% 0%;
+  --foreground: 120 100% 50%;
+
+  --card: 0 0% 3%;
+  --card-foreground: 120 100% 50%;
+
+  --popover: 0 0% 3%;
+  --popover-foreground: 120 100% 50%;
+
+  --primary: 120 100% 50%;
+  --primary-foreground: 0 0% 0%;
+
+  --secondary: 120 100% 10%;
+  --secondary-foreground: 120 100% 50%;
+
+  --muted: 120 20% 10%;
+  --muted-foreground: 120 60% 40%;
+
+  --accent: 120 100% 10%;
+  --accent-foreground: 120 100% 50%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 120 50% 20%;
+  --input: 120 50% 20%;
+  --ring: 120 100% 50%;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-secondary: var(--secondary);
-  --color-error: var(--error);
-  --color-warning: var(--warning);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Courier New', Courier, monospace; /* Hacker vibe */
+  font-family: 'Courier New', Courier, monospace;
 }
 
-/* Custom utilities */
-.btn-primary {
-  @apply bg-primary text-black font-bold py-2 px-4 rounded hover:opacity-80 transition-colors cursor-pointer;
+/* Custom utilities for the hacker vibe */
+.scan-line {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 255, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  animation: scan 3s infinite linear;
+  pointer-events: none;
+  z-index: 9999;
 }
 
-.btn-secondary {
-  @apply bg-secondary text-primary border border-primary py-2 px-4 rounded hover:opacity-80 transition-colors cursor-pointer;
-}
-
-.input-field {
-  @apply bg-black border border-primary text-primary p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-primary;
-}
-
-.card {
-  @apply border border-primary p-4 rounded bg-black shadow-[0_0_10px_rgba(0,255,0,0.2)];
+@keyframes scan {
+  0% { top: 0%; }
+  100% { top: 100%; }
 }

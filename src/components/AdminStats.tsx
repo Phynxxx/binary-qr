@@ -1,5 +1,5 @@
-'use client';
-
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import useSWR from 'swr';
 
 const fetcher = (url: string) => fetch(url, {
@@ -9,7 +9,7 @@ const fetcher = (url: string) => fetch(url, {
 export default function AdminStats() {
   const { data, error, isLoading } = useSWR('/api/admin/stats', fetcher, { refreshInterval: 5000 });
 
-  if (error) return <div className="text-error">Failed to load stats</div>;
+  if (error) return <div className="text-destructive">Failed to load stats</div>;
   if (isLoading) return <div className="text-primary animate-pulse">Loading stats...</div>;
 
   const { stats, recentLogs } = data;
@@ -26,45 +26,49 @@ export default function AdminStats() {
         <StatCard label="Swag" value={stats.swag} />
       </div>
 
-      <div className="card">
-        <h3 className="text-xl font-bold mb-4 border-b border-primary pb-2">Recent Scans</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="text-gray-400 border-b border-gray-800">
-                <th className="p-2">Time</th>
-                <th className="p-2">User</th>
-                <th className="p-2">Type</th>
-                <th className="p-2">Status</th>
-                <th className="p-2">Vol</th>
-              </tr>
-            </thead>
-            <tbody>
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Scans</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Time</TableHead>
+                <TableHead>User</TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Vol</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {recentLogs.map((log: any) => (
-                <tr key={log._id} className="border-b border-gray-900 hover:bg-gray-900 font-mono text-sm">
-                  <td className="p-2">{new Date(log.scannedAt).toLocaleTimeString()}</td>
-                  <td className="p-2">{log.username}</td>
-                  <td className="p-2">{log.type} {log.mealKey ? `(${log.mealKey})` : ''}</td>
-                  <td className={
-                    log.status === 'SUCCESS' ? 'text-primary p-2' : 
-                    log.status === 'DUPLICATE' ? 'text-red-500 p-2' : 'text-yellow-500 p-2'
-                  }>{log.status}</td>
-                  <td className="p-2 text-gray-500">{log.volunteerId}</td>
-                </tr>
+                <TableRow key={log._id}>
+                  <TableCell className="font-mono">{new Date(log.scannedAt).toLocaleTimeString()}</TableCell>
+                  <TableCell className="font-mono">{log.username}</TableCell>
+                  <TableCell>{log.type} {log.mealKey ? `(${log.mealKey})` : ''}</TableCell>
+                  <TableCell className={
+                    log.status === 'SUCCESS' ? 'text-primary' : 
+                    log.status === 'DUPLICATE' ? 'text-destructive' : 'text-yellow-500'
+                  }>{log.status}</TableCell>
+                  <TableCell className="text-muted-foreground">{log.volunteerId}</TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   );
 }
 
 function StatCard({ label, value }: { label: string, value: number }) {
   return (
-    <div className="card text-center">
-      <p className="text-gray-400 text-sm uppercase tracking-wider">{label}</p>
-      <p className="text-4xl font-bold text-primary mt-2">{value}</p>
-    </div>
+    <Card>
+      <CardContent className="flex flex-col items-center justify-center p-6">
+        <p className="text-muted-foreground text-xs uppercase tracking-wider mb-2">{label}</p>
+        <p className="text-4xl font-bold text-primary">{value}</p>
+      </CardContent>
+    </Card>
   );
 }
