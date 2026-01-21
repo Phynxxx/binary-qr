@@ -10,9 +10,15 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
+    "html5-qrcode": "^2.3.8",
+    "mongoose": "^9.1.5",
     "next": "16.1.4",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "recharts": "^3.6.0",
+    "swr": "^2.3.8",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
